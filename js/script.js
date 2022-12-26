@@ -4,23 +4,34 @@ const { createApp } = Vue
         data() {
             return {
 
-            numbers: [],
+            invitati: [],
+            inputName:"",
             
         }
     },
         methods: {
 
-        getNumbers(){
+            getRandomName(){
+                for (let index = 0; index < 10; index++) {
+    
+                    axios.get(`https://flynn.boolean.careers/exercises/api/random/name`)
+                    .then( (response) => {
+    
+                        const nomi = response.data.response
+                        this.invitati.push(nomi);
+                    });
+                }
+    
+    
+                },
 
-                axios.get(`https://flynn.boolean.careers/exercises/api/random/int`)
-                .then( (response) => {
-
-                this.numbers.push(response.data.response);
-                console.log(this.numbers);
-                });
-
-
-            }
+                enterUser(){
+                    if (this.invitati.includes(this.inputName)){
+                        return true
+                    } else {
+                        return false
+                    }
+                    }
             
 
             
@@ -28,7 +39,7 @@ const { createApp } = Vue
 
 
         created() {
-            this.getNumbers()
+            this.getRandomName()
         }
 
 
@@ -38,9 +49,10 @@ const { createApp } = Vue
 
 
 
-/**
-Creare due div; uno conterrà numeri dispari di colore rosso e l'altro conterrà numeri pari in verde.
- Ad ogni click di un bottone chiedere all'API un numero, se è dispari metterlo nel blocco dispari, e se è pari in quello pari.
+/***
+Chiedere all'API 10 nomi da inserire in un array di invitati.
+ Una volta generata la lista chiedere all'utente di dire il proprio nome.
+ Se è uno degli invitati ritornare un messaggio di benvenuto, altrimenti di accesso negato.
 */
     
 
